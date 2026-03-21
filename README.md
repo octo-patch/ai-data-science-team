@@ -47,7 +47,7 @@ Full app docs: `apps/ai-pipeline-studio-app/README.md`
 
 ### Requirements
 - Python 3.10+
-- OpenAI API key (or Ollama for local models)
+- OpenAI API key, MiniMax API key, or Ollama for local models
 
 ### Install the app and library
 Clone the repo and install in editable mode:
@@ -100,6 +100,20 @@ llm = ChatOpenAI(
     model_name="gpt-4.1-mini",
 )
 ```
+
+## Use MiniMax
+
+```python
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    model="MiniMax-M2.7",
+    api_key="your-minimax-api-key",
+    base_url="https://api.minimax.io/v1",
+)
+```
+
+Get your API key at [platform.minimaxi.com](https://platform.minimaxi.com). Available models: `MiniMax-M2.7`, `MiniMax-M2.5`, `MiniMax-M2.5-highspeed` (204K context).
 
 ## Use Ollama (Local LLM)
 
