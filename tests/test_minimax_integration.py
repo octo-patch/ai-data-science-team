@@ -21,7 +21,7 @@ SKIP_REASON = "MINIMAX_API_KEY not set"
 class TestMiniMaxLiveAPI(unittest.TestCase):
     """Integration tests that call the MiniMax API."""
 
-    def _make_llm(self, model: str = "MiniMax-M2.7", **kwargs):
+    def _make_llm(self, model: str = "MiniMax-M3", **kwargs):
         return ChatOpenAI(
             model=model,
             api_key=MINIMAX_API_KEY,
@@ -31,15 +31,15 @@ class TestMiniMaxLiveAPI(unittest.TestCase):
         )
 
     def test_simple_invoke(self):
-        """MiniMax M2.7 should respond to a simple prompt."""
+        """MiniMax M3 should respond to a simple prompt."""
         llm = self._make_llm()
         response = llm.invoke([HumanMessage(content="Say hello in one word.")])
         self.assertIsNotNone(response)
         self.assertTrue(len(response.content) > 0)
 
-    def test_m25_model(self):
-        """MiniMax M2.5 should also work."""
-        llm = self._make_llm(model="MiniMax-M2.5")
+    def test_m27_model(self):
+        """MiniMax M2.7 should also work."""
+        llm = self._make_llm(model="MiniMax-M2.7")
         response = llm.invoke([HumanMessage(content="What is 2+2? Answer with just the number.")])
         self.assertIsNotNone(response)
         self.assertIn("4", response.content)

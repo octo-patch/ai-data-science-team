@@ -16,44 +16,44 @@ from langchain_openai import ChatOpenAI
 # ---------------------------------------------------------------------------
 
 MINIMAX_BASE_URL = "https://api.minimax.io/v1"
-MINIMAX_MODELS = ["MiniMax-M2.7", "MiniMax-M2.5", "MiniMax-M2.5-highspeed"]
+MINIMAX_MODELS = ["MiniMax-M3", "MiniMax-M2.7", "MiniMax-M2.7-highspeed"]
 
 
 class TestMiniMaxChatOpenAICreation(unittest.TestCase):
     """Test that ChatOpenAI can be instantiated with MiniMax parameters."""
 
     def test_create_minimax_llm_default_model(self):
-        """MiniMax M2.7 should be the default model."""
+        """MiniMax M3 should be the default model."""
+        llm = ChatOpenAI(
+            model="MiniMax-M3",
+            api_key="test-key",
+            base_url=MINIMAX_BASE_URL,
+        )
+        self.assertEqual(llm.model_name, "MiniMax-M3")
+        self.assertIn("minimax", str(llm.openai_api_base).lower())
+
+    def test_create_minimax_llm_m27(self):
+        """MiniMax M2.7 should be creatable."""
         llm = ChatOpenAI(
             model="MiniMax-M2.7",
             api_key="test-key",
             base_url=MINIMAX_BASE_URL,
         )
         self.assertEqual(llm.model_name, "MiniMax-M2.7")
-        self.assertIn("minimax", str(llm.openai_api_base).lower())
 
-    def test_create_minimax_llm_m25(self):
-        """MiniMax M2.5 should be creatable."""
+    def test_create_minimax_llm_m27_highspeed(self):
+        """MiniMax M2.7-highspeed should be creatable."""
         llm = ChatOpenAI(
-            model="MiniMax-M2.5",
+            model="MiniMax-M2.7-highspeed",
             api_key="test-key",
             base_url=MINIMAX_BASE_URL,
         )
-        self.assertEqual(llm.model_name, "MiniMax-M2.5")
-
-    def test_create_minimax_llm_m25_highspeed(self):
-        """MiniMax M2.5-highspeed (204K context) should be creatable."""
-        llm = ChatOpenAI(
-            model="MiniMax-M2.5-highspeed",
-            api_key="test-key",
-            base_url=MINIMAX_BASE_URL,
-        )
-        self.assertEqual(llm.model_name, "MiniMax-M2.5-highspeed")
+        self.assertEqual(llm.model_name, "MiniMax-M2.7-highspeed")
 
     def test_minimax_base_url(self):
         """The base URL should point to MiniMax API."""
         llm = ChatOpenAI(
-            model="MiniMax-M2.7",
+            model="MiniMax-M3",
             api_key="test-key",
             base_url=MINIMAX_BASE_URL,
         )
@@ -63,7 +63,7 @@ class TestMiniMaxChatOpenAICreation(unittest.TestCase):
     def test_minimax_temperature_clamp(self):
         """MiniMax accepts temperature in [0, 1]."""
         llm = ChatOpenAI(
-            model="MiniMax-M2.7",
+            model="MiniMax-M3",
             api_key="test-key",
             base_url=MINIMAX_BASE_URL,
             temperature=0.7,
@@ -73,7 +73,7 @@ class TestMiniMaxChatOpenAICreation(unittest.TestCase):
     def test_minimax_temperature_zero(self):
         """MiniMax now accepts temperature=0."""
         llm = ChatOpenAI(
-            model="MiniMax-M2.7",
+            model="MiniMax-M3",
             api_key="test-key",
             base_url=MINIMAX_BASE_URL,
             temperature=0,
@@ -100,10 +100,10 @@ class TestMiniMaxProviderConfig(unittest.TestCase):
         self.assertIn("MiniMax", provider_list)
 
     def test_minimax_model_list(self):
-        """Verify the MINIMAX_MODEL_LIST pattern is correct."""
-        model_list = ["MiniMax-M2.7", "MiniMax-M2.5", "MiniMax-M2.5-highspeed"]
+        """Verify the MINIMAX_MODEL_LIST pattern is correct (M3 default)."""
+        model_list = ["MiniMax-M3", "MiniMax-M2.7", "MiniMax-M2.7-highspeed"]
         self.assertEqual(len(model_list), 3)
-        self.assertEqual(model_list[0], "MiniMax-M2.7")
+        self.assertEqual(model_list[0], "MiniMax-M3")
 
     def test_minimax_api_key_env_var(self):
         """MiniMax API key should be readable from environment."""
@@ -114,7 +114,7 @@ class TestMiniMaxProviderConfig(unittest.TestCase):
     def test_build_team_minimax_branch(self):
         """Test the provider routing logic used in build_team()."""
         llm_provider = "MiniMax"
-        model_name = "MiniMax-M2.7"
+        model_name = "MiniMax-M3"
         minimax_api_key = "test-key"
 
         if llm_provider.lower() == "minimax":
@@ -128,7 +128,7 @@ class TestMiniMaxProviderConfig(unittest.TestCase):
             llm = None
 
         self.assertIsNotNone(llm)
-        self.assertEqual(llm.model_name, "MiniMax-M2.7")
+        self.assertEqual(llm.model_name, "MiniMax-M3")
         self.assertIn("minimax", str(llm.openai_api_base).lower())
 
     def test_provider_routing_openai(self):
@@ -153,7 +153,7 @@ class TestMiniMaxAgentCompatibility(unittest.TestCase):
     def test_minimax_llm_is_langchain_compatible(self):
         """MiniMax via ChatOpenAI should be a valid LangChain LLM."""
         llm = ChatOpenAI(
-            model="MiniMax-M2.7",
+            model="MiniMax-M3",
             api_key="test-key",
             base_url=MINIMAX_BASE_URL,
         )
@@ -164,13 +164,13 @@ class TestMiniMaxAgentCompatibility(unittest.TestCase):
     def test_minimax_llm_serialization(self):
         """MiniMax LLM config should be serializable for LangChain."""
         llm = ChatOpenAI(
-            model="MiniMax-M2.7",
+            model="MiniMax-M3",
             api_key="test-key",
             base_url=MINIMAX_BASE_URL,
             temperature=0.7,
         )
         # The model should expose its config
-        self.assertEqual(llm.model_name, "MiniMax-M2.7")
+        self.assertEqual(llm.model_name, "MiniMax-M3")
         self.assertEqual(llm.temperature, 0.7)
 
 
@@ -184,15 +184,16 @@ class TestPipelineStudioMiniMaxIntegration(unittest.TestCase):
         self.assertEqual(providers.index("MiniMax"), 1)
 
     def test_pipeline_studio_minimax_models(self):
-        """Pipeline Studio should list MiniMax models."""
-        models = ["MiniMax-M2.7", "MiniMax-M2.5", "MiniMax-M2.5-highspeed"]
+        """Pipeline Studio should list MiniMax models with M3 first."""
+        models = ["MiniMax-M3", "MiniMax-M2.7", "MiniMax-M2.7-highspeed"]
         self.assertEqual(len(models), 3)
+        self.assertEqual(models[0], "MiniMax-M3")
         self.assertTrue(all(m.startswith("MiniMax") for m in models))
 
     def test_build_team_creates_minimax_llm(self):
         """build_team() with MiniMax provider should create valid LLM."""
         llm_provider = "MiniMax"
-        model_name = "MiniMax-M2.7"
+        model_name = "MiniMax-M3"
         minimax_api_key = "test-key"
 
         if llm_provider.lower() == "minimax":
@@ -207,7 +208,7 @@ class TestPipelineStudioMiniMaxIntegration(unittest.TestCase):
 
         self.assertIsNotNone(llm)
         self.assertIsInstance(llm, ChatOpenAI)
-        self.assertEqual(llm.model_name, "MiniMax-M2.7")
+        self.assertEqual(llm.model_name, "MiniMax-M3")
 
 
 if __name__ == "__main__":

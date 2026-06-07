@@ -28,7 +28,7 @@ DB_OPTIONS = {
 
 PROVIDER_LIST = ["OpenAI", "MiniMax"]
 OPENAI_MODEL_LIST = ['gpt-4o-mini', 'gpt-4o']
-MINIMAX_MODEL_LIST = ["MiniMax-M2.7", "MiniMax-M2.5", "MiniMax-M2.5-highspeed"]
+MINIMAX_MODEL_LIST = ["MiniMax-M3", "MiniMax-M2.7", "MiniMax-M2.7-highspeed"]
 
 TITLE = "Your SQL Database Agent"
 

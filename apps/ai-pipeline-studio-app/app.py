@@ -4504,12 +4504,12 @@ with st.sidebar:
         model_choice = st.selectbox(
             "Model",
             [
+                "MiniMax-M3",
                 "MiniMax-M2.7",
-                "MiniMax-M2.5",
-                "MiniMax-M2.5-highspeed",
+                "MiniMax-M2.7-highspeed",
             ],
             key="minimax_model_choice",
-            help="MiniMax-M2.7 is the latest and most capable model.",
+            help="MiniMax-M3 is the latest model (512K context, up to 128K output, image input).",
         )
     else:
         if ChatOllama is None:
@@ -4923,8 +4923,8 @@ def build_team(
     llm_provider: str,
     model_name: str,
     openai_api_key: str | None,
-    minimax_api_key: str | None = None,
-    ollama_base_url: str | None = None,
+    minimax_api_key: str | None,
+    ollama_base_url: str | None,
     use_memory: bool,
     sql_url: str,
     checkpointer,

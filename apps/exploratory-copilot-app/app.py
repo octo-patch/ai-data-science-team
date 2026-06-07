@@ -119,7 +119,7 @@ def render_report_iframe(
 
 PROVIDER_LIST = ["OpenAI", "MiniMax"]
 OPENAI_MODEL_LIST = ["gpt-4o-mini", "gpt-4o"]
-MINIMAX_MODEL_LIST = ["MiniMax-M2.7", "MiniMax-M2.5", "MiniMax-M2.5-highspeed"]
+MINIMAX_MODEL_LIST = ["MiniMax-M3", "MiniMax-M2.7", "MiniMax-M2.7-highspeed"]
 TITLE = "Your Exploratory Data Analysis (EDA) Copilot"
 st.set_page_config(page_title=TITLE, page_icon="📊")
 st.title("📊 " + TITLE)

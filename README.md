@@ -107,13 +107,13 @@ llm = ChatOpenAI(
 from langchain_openai import ChatOpenAI
 
 llm = ChatOpenAI(
-    model="MiniMax-M2.7",
+    model="MiniMax-M3",
     api_key="your-minimax-api-key",
     base_url="https://api.minimax.io/v1",
 )
 ```
 
-Get your API key at [platform.minimaxi.com](https://platform.minimaxi.com). Available models: `MiniMax-M2.7`, `MiniMax-M2.5`, `MiniMax-M2.5-highspeed` (204K context).
+Get your API key at [platform.minimaxi.com](https://platform.minimaxi.com). Available models: `MiniMax-M3` (512K context, up to 128K output, image input), `MiniMax-M2.7`, `MiniMax-M2.7-highspeed`.
 
 ## Use Ollama (Local LLM)
 
